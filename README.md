@@ -1,5 +1,5 @@
 # Affichage des devices du Lab-Usine disponibles via OpenFactory
-
+Se connecte aux mises à jours de l'état du Lab-Usine (capteurs disponibles) à l'aide du serveur WebSockets disponible sur le cluster OpenFactory.
 ## Recommended IDE Setup
 
 [VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
