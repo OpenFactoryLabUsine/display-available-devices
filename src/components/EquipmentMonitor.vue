@@ -3,7 +3,7 @@
     <h2>Capteurs disponibles</h2>
 
     <div v-if="loading" class="status-message">
-      Connecting to live feed...
+      Connecting to OpenFactory...
     </div>
 
     <div v-else class="grid">
@@ -60,7 +60,6 @@ onMounted(() => {
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
-    // Check if the event is the list we expect
     if (data.event === "equipments_list") {
       equipments.value = data.equipments;
       loading.value = false;
