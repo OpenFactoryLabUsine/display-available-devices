@@ -49,24 +49,31 @@ h3 { margin: 0 0 15px 0; font-size: 1.1rem; color: #1e293b; }
 </style>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const equipments = ref([]);
 const loading = ref(true);
+let socket = null;
 
 onMounted(() => {
-  const ws = new WebSocket("ws://equipments-api.labusine.local/equipments");
+  socket = new WebSocket("ws://equipments-api.labusine.local/equipments");
 
-  ws.onmessage = (event) => {
+  socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-
-    if (data.event === "equipments_list") {
+    if (data.equipments) {
       equipments.value = data.equipments;
       loading.value = false;
+    } else if (data.type === "error") {
+      console.error("Server error:", data.message);
     }
   };
 
-  ws.onopen = () => console.log("Connected to OpenFactory API");
-  ws.onerror = (err) => console.error("WebSocket Error:", err);
+  socket.onopen = () => {
+    console.log("Connected to OpenFactory API");
+  };
+});
+
+onUnmounted(() => {
+  if (socket) socket.close();
 });
 </script>
