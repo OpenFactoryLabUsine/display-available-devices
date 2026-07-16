@@ -6,8 +6,11 @@
       <h2>{{ variable }}</h2>
       <p class="asset-id">Asset: {{ asset_uuid }}</p>
 
-      <div class="live-value">
-        {{ equipment.variables[variable]?.value }}
+      <div class="live-value" v-if="equipment.variables[variable]">
+        Current value: {{ equipment.variables[variable]?.value}} mg/m³
+      </div>
+      <div class="live-value" v-else>
+        Current value: loading...
       </div>
 
       <div class="chart-wrapper">
@@ -34,10 +37,13 @@
   border: 1px solid var(--border-color);
 }
 .asset-id { color: var(--text-muted); margin-bottom: 2rem; }
+
+.live-value { color: var(--text-muted); margin-bottom: 2rem; }
+
 </style>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted} from 'vue';
 import { useEquipmentStore } from '@/stores/equipmentStore';
 import { Line } from 'vue-chartjs';
 import { useRoute } from 'vue-router';
@@ -60,9 +66,6 @@ const store = useEquipmentStore();
 const asset_uuid = computed(() => route.params.asset_uuid);
 const variable = computed(() => route.params.variable);
 
-const history = ref([]);
-const MAX_HISTORY_SIZE = 100;
-
 onMounted(async () => {
   if (store.equipments.length === 0) {
     await store.connectToEquipments();
@@ -73,28 +76,14 @@ const equipment = computed(() => {
   return store.equipments.find(e => e.asset_uuid === asset_uuid.value);
 });
 
-watch(() => store.equipments, (newEquipments) => {
-  const eq = newEquipments.find(e => e.asset_uuid === asset_uuid.value);
-  if (eq && eq.variables && eq.variables[variable.value]) {
-    const dataPoint = eq.variables[variable.value];
-
-    history.value.push({
-      x: new Date(dataPoint.timestamp).toLocaleTimeString(),
-      y: dataPoint.value
-    });
-
-    if (history.value.length > MAX_HISTORY_SIZE) {
-      history.value.shift();
-    }
-  }
-}, { deep: true });
-
 const chartData = computed(() => {
+  const variableHistory = equipment.value?.history?.[variable.value] || [];
+
   return {
-    labels: history.value.map(point => point.x),
+    labels: variableHistory.map(p => p.x),
     datasets: [{
       label: variable.value.replace(/_/g, ' '),
-      data: history.value.map(point => point.y),
+      data: variableHistory.map(p => p.y),
       borderColor: '#3b82f6',
       tension: 0.1
     }]

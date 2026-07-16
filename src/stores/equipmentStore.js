@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
 
+const MAX_HISTORY_SIZE = 100;
+
 export const useEquipmentStore = defineStore('equipment', {
     state: () => ({
         equipments: [],
         mainWs: null,
-        detailSockets: {}
+        detailSockets: {},
     }),
 
     actions: {
@@ -52,22 +54,28 @@ export const useEquipmentStore = defineStore('equipment', {
                 const eq = this.equipments.find(e => e.asset_uuid === uuid);
                 if (!eq) return;
 
-                if (rawData.event === 'equipment_update' && Array.isArray(rawData.variables)) {
-                    const newVars = {};
+                if (!eq.history) eq.history = {};
 
+                if (rawData.event === 'equipment_update') {
                     rawData.variables.forEach(v => {
                         const key = v.id ? v.id.split('.').pop() : v.name;
-                        newVars[key] = {'value': v.value, 'timestamp': v.timestamp};
-                    });
-                    eq.variables = { ...eq.variables, ...newVars };
-                }
-                else if (rawData.variables) {
-                    eq.variables = { ...eq.variables, ...rawData.variables };
-                }
-            };
 
-            this.detailSockets[uuid] = ws;
-        },
+                        if (!eq.history[key]) eq.history[key] = [];
+
+                        eq.variables[key] = { value: v.value, timestamp: v.timestamp };
+
+                        eq.history[key].push({
+                            x: new Date(v.timestamp).toLocaleTimeString(),
+                            y: v.value
+                        });
+
+                        if (eq.history[key].length > 100) {
+                            eq.history[key].shift();
+                        }
+                    });
+                }
+            }
+        }
     },
 
 });
