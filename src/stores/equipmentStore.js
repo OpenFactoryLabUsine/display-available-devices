@@ -37,6 +37,7 @@ export const useEquipmentStore = defineStore('equipment', {
 
             this.equipments = this.equipments.filter(e => newList.find(n => n.asset_uuid === e.asset_uuid));
         },
+
         subscribeToDetails(uuid) {
             if (this.detailSockets[uuid]) return;
 
@@ -45,23 +46,22 @@ export const useEquipmentStore = defineStore('equipment', {
             ws.onmessage = (event) => {
                 const rawData = JSON.parse(event.data);
 
-                if (rawData.event === 'ping' || rawData.event === 'connection_established') {
-                    return;
-                }
+                if (rawData.event === 'ping') return;
+                if (rawData.event === 'connection_established') return;
 
                 const eq = this.equipments.find(e => e.asset_uuid === uuid);
                 if (!eq) return;
 
-                if (Array.isArray(rawData)) {
-                    const normalizedVariables = {};
-                    rawData.forEach(item => {
-                        if (item.id) {
-                            const key = item.id.split('.').pop();
-                            normalizedVariables[key] = item.value;
-                        }
+                if (rawData.event === 'equipment_update' && Array.isArray(rawData.variables)) {
+                    const newVars = {};
+
+                    rawData.variables.forEach(v => {
+                        const key = v.id ? v.id.split('.').pop() : v.name;
+                        newVars[key] = {'value': v.value, 'timestamp': v.timestamp};
                     });
-                    eq.variables = { ...eq.variables, ...normalizedVariables };
-                } else if (rawData.variables) {
+                    eq.variables = { ...eq.variables, ...newVars };
+                }
+                else if (rawData.variables) {
                     eq.variables = { ...eq.variables, ...rawData.variables };
                 }
             };
