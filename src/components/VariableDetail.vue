@@ -6,11 +6,8 @@
       <h2>{{ variable }}</h2>
       <p class="asset-id">Asset: {{ asset_uuid }}</p>
 
-      <div class="live-value" v-if="equipment.variables[variable]">
+      <div class="live-value">
         Current value: {{ equipment.variables[variable]?.value}} mg/m³
-      </div>
-      <div class="live-value" v-else>
-        Current value: loading...
       </div>
 
       <div class="chart-wrapper">

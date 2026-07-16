@@ -69,7 +69,7 @@ export const useEquipmentStore = defineStore('equipment', {
                             y: v.value
                         });
 
-                        if (eq.history[key].length > 100) {
+                        if (eq.history[key].length > MAX_HISTORY_SIZE) {
                             eq.history[key].shift();
                         }
                     });
