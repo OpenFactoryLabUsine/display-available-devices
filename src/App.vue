@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <header class="main-header">
-      <h1>Lab-Usine Monitor</h1>
+      <router-link to="/">
+        <img src="@/components/icons/lab-usine-logo.png" alt="Lab-Usine Logo" class="logo" />
+      </router-link>
+      <h1 class="title">Tableau de bord des équipements disponibles</h1>
     </header>
     <main class="content">
       <router-view />
@@ -11,10 +14,26 @@
 
 <style>
 .main-header {
-  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
   background: var(--card-bg);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.logo {
+  display: flex;
+  margin: 0.5rem 1rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  width: 8vh;
+  height: 8vh;
+}
+
+.title {
+  font-size: 2.0rem;
+  vertical-align: center;
 }
 .content {
   padding: 2rem;
