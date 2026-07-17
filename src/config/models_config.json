@@ -1,0 +1,6 @@
+{
+  "pm10_concentration": "src/models/iqr_pm10.json",
+  "pm4_concentration": "src/models/iqr_pm4.json",
+  "pm2_5_concentration": "src/models/iqr_pm2_5.json",
+  "pm1_concentration": "src/models/iqr_pm1.json"
+}

@@ -1,0 +1,1 @@
+{"scaler": {"center": 0.018999999999225, "scale": 0.013999999999999999}, "model": {"target_col": "pm4_concentration", "lower_bound": -2.299999999944643, "upper_bound": 2.3000000000553573}}

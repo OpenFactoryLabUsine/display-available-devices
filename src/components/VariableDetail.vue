@@ -40,7 +40,7 @@
 </style>
 
 <script setup>
-import { computed, onMounted} from 'vue';
+import { computed, onMounted, ref} from 'vue';
 import { useEquipmentStore } from '@/stores/equipmentStore';
 import { Line } from 'vue-chartjs';
 import { useRoute } from 'vue-router';
@@ -81,6 +81,7 @@ const chartData = computed(() => {
     datasets: [{
       label: variable.value.replace(/_/g, ' '),
       data: variableHistory.map(p => p.y),
+      pointBackgroundColor: variableHistory.map(p => p.isAnomalous ? '#ef4444' : '#3b82f6'),
       borderColor: '#3b82f6',
       tension: 0.1
     }]
