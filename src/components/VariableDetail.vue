@@ -40,7 +40,7 @@
 </style>
 
 <script setup>
-import { computed, onMounted, ref} from 'vue';
+import { computed, onMounted} from 'vue';
 import { useEquipmentStore } from '@/stores/equipmentStore';
 import { Line } from 'vue-chartjs';
 import { useRoute } from 'vue-router';
