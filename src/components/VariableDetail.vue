@@ -81,7 +81,7 @@ const chartData = computed(() => {
       label: variable.value.replace(/_/g, ' '),
       data: variableHistory.map(p => p.y),
       pointBackgroundColor: variableHistory.map(p => p.isAnomalous ? '#ef4444' : '#3b82f6'),
-      borderColor: '#3b82f6',
+      borderColor: variableHistory.map(p => p.isAnomalous ? '#ef4444' : '#3b82f6'),
       tension: 0.1
     }]
   };

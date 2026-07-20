@@ -10,12 +10,13 @@ export async function useIqrModel(configPath) {
 
     const config = await modules[normalizedPath]();
 
-    const applyScaling = (val, mean, scale) => (val - mean) / scale;
+    const applyScaling = (val, center, scale) => (val - center) / scale;
 
     const getTargetValue = () => config.model.target_col;
 
     const predict = (value) => {
-        const scaledValue = applyScaling(value, config.scaler.mean, config.scaler.scale);
+        const scaledValue = applyScaling(value, config.scaler.center, config.scaler.scale);
+        console.log(`Scaled value${scaledValue}, original value: ${value}, mean: ${config.scaler.center}, scaled: ${config.scaler.scale}`);
         return (scaledValue < config.model.lower_bound || scaledValue > config.model.upper_bound) ? -1 : 1;
     };
 
