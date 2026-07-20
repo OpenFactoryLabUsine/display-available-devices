@@ -4,7 +4,7 @@
 
     <div class="card" v-if="equipment && equipment.variables">
       <h2>{{ variable }}</h2>
-      <p class="asset-id">Asset: {{ asset_uuid }}</p>
+      <p>Asset: {{ asset_uuid }}</p>
 
       <div class="live-value">
         Current value: {{ equipment.variables[variable]?.value}} mg/m³
@@ -33,9 +33,8 @@
   border-radius: 12px;
   border: 1px solid var(--border-color);
 }
-.asset-id { color: var(--text-muted); margin-bottom: 2rem; }
 
-.live-value { color: var(--text-muted); margin-bottom: 2rem; }
+.live-value { margin-bottom: 2rem; }
 
 </style>
 
