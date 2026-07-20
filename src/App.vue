@@ -1,51 +1,43 @@
 <template>
   <div id="app">
     <header class="main-header">
-      <h1>État Lab-Usine</h1>
+      <router-link to="/">
+        <img src="@/components/icons/lab-usine-logo.png" alt="Lab-Usine Logo" class="logo" />
+      </router-link>
+      <h1 class="title">Tableau de bord des équipements disponibles</h1>
     </header>
-
     <main class="content">
-      <EquipmentMonitor />
+      <router-view />
     </main>
   </div>
 </template>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-}
-
-#app {
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100vw;
-}
-
 .main-header {
-  padding: 20px 40px;
-  border-bottom: 2px solid #f0f0f0;
-  background: #ffffff;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.logo {
+  display: flex;
+  margin: 0.5rem 1rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  width: 8vh;
+  height: 8vh;
 }
 
+.title {
+  font-size: 2.0rem;
+  vertical-align: center;
+}
 .content {
-  flex: 1;
-  padding: 20px 40px;
-  background-color: #fafafa;
-  width: 100%;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 </style>
-<script setup lang="ts">
-import EquipmentMonitor from "./components/EquipmentMonitor.vue";
-</script>

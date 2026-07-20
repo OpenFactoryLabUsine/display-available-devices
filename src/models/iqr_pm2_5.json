@@ -1,0 +1,1 @@
+{"scaler": {"center": 0.018, "scale": 0.013999999998874996}, "model": {"target_col": "pm2_5_concentration", "lower_bound": -2.2285714286058673, "upper_bound": 2.3714285713941328}}
