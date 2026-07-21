@@ -27,12 +27,12 @@
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  width: 8vh;
-  height: 8vh;
+  width: 50px;
+  height: 50px;
 }
 
 .title {
-  font-size: 2.0rem;
+  font-size: 1.5rem;
   vertical-align: center;
 }
 .content {
